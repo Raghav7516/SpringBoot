@@ -26,6 +26,7 @@ public class UomServiceImpl implements IUomService {
 
 	@Override
 	public void update(Uom uom) {
+		uom.setCreateDate(repo.getOne(uom.getUomId()).getCreateDate());
 		uom.setLastModified(new Date());
 		repo.save(uom);
 	}

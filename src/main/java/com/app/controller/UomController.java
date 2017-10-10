@@ -8,9 +8,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.model.Uom;
 import com.app.service.IUomService;
+import com.app.util.UomUtil;
 
 @Controller
 public class UomController {
@@ -53,8 +55,20 @@ public class UomController {
 	public String deleteUom(long uomId){
 		service.deleteById(uomId);
 		return "redirect:getAllUoms";
-		
 	}
 	
+	@GetMapping("/editUom")
+	public String editUom(@RequestParam("uomId")int uomId,ModelMap map){
+		Uom ob=service.getOneById(uomId);
+		map.addAttribute("uom", ob);
+		map.addAttribute("uomTypes", UomUtil.getUomTypes());
+		return "UomDataUpdate";
+	}
+	@PostMapping("/updateUom")
+	public String updateUom(@ModelAttribute Uom uom){
+		service.update(uom);
+		return "redirect:getAllUoms";
+		
+	}
 	
 }
