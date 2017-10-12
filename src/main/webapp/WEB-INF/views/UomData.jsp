@@ -14,7 +14,6 @@
 <tr>
 	<th>ID</th><th>TYPE</th><th>UOM</th><th>Created</th><th>Last Modified</th><th>Notes</th>
 </tr>
-<c:if test="${uoms==null}">
 <c:forEach items="${uoms}" var="uom">
 <tr>
 <td><c:out value="${uom.uomId}"/></td>
@@ -24,14 +23,10 @@
 <td><c:out value="${uom.lastModified}"/></td>
 <td><c:out value="${uom.description}"/></td>
 <td><a href="/deleteUom?uomId=${uom.uomId}">DELETE</a></td>
+<td><a href="/editUom?uomId=${uom.uomId}">EDIT</a></td>
 </tr>
 </c:forEach>
-</c:if>
-<c:if test="${uoms==null}">
-<c:out value="done"></c:out>
-</c:if>
 </table>
-
 </body>
 </html>
 

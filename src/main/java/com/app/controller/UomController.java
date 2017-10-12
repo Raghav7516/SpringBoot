@@ -25,7 +25,7 @@ public class UomController {
 	 * on enter URL 'regUom' in
 	 * Browser
 	 */
-	@GetMapping(value={"/regUom","/"})  
+	@GetMapping(value={"/regUom"})  
 	public String showRegPage(){
 		return "UomRegister";
 	}
