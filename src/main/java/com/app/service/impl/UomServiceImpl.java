@@ -49,4 +49,9 @@ public class UomServiceImpl implements IUomService {
 		return uomOb;
 	}
 
+	@Override
+	public List<Uom> saveMultiple(List<Uom> uomList) {
+		return repo.save(uomList);
+	}
+
 }

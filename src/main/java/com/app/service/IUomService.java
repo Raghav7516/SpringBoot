@@ -10,4 +10,5 @@ public interface IUomService {
 	public void deleteById(long uomId);
 	public Uom getOneById(long uomId);
 	public List<Uom> getAll();
+	public List<Uom> saveMultiple(List<Uom> uomList);
 }
