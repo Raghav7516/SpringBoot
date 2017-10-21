@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.app.model.Uom;
@@ -52,6 +54,12 @@ public class UomServiceImpl implements IUomService {
 	@Override
 	public List<Uom> saveMultiple(List<Uom> uomList) {
 		return repo.save(uomList);
+	}
+
+	@Override
+	public Page<Uom> getAll(Pageable pageable) {
+		Page<Uom> uompage=repo.findAll(pageable);
+		return uompage;
 	}
 
 }

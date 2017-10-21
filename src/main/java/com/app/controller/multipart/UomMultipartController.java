@@ -21,7 +21,7 @@ public class UomMultipartController {
 	@Autowired
 	private IUomService service;
 	
-	@GetMapping({"/uomMultipart","/"})
+	@GetMapping("/uomMultipart")
 	public String showUomMultipartFile(){
 		return "UomMultipart";
 	}

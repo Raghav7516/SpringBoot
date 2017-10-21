@@ -9,8 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="uom_tab")
@@ -23,9 +26,12 @@ public class Uom implements Comparable<Uom>{
 	private long uomId;
 	
 	@Column(name="u_type")
+//	@Size(min=1,message="pls select any ont UOM TYPE")
+	@NotEmpty(message="pls select any ont UOM TYPE")
 	private String uomType;
 	
 	@Column(name="u_model")
+	@Pattern(regexp="[A-Z]{4,6}",message="plz enter model (4-6 chars)")
 	private String uomModel;
 	
 	@Column(name="u_cdate")
@@ -37,6 +43,7 @@ public class Uom implements Comparable<Uom>{
 	private Date lastModified;
 	
 	@Column(name="u_desc")
+	@NotBlank(message="plz enter something description")
 	private String description;
 	
 

@@ -20,7 +20,6 @@ public class UomExcelView extends AbstractXlsxView {
 	protected void buildExcelDocument(Map<String, Object> map, Workbook book,
 			HttpServletRequest req, HttpServletResponse res) throws Exception {
 		res.addHeader("Content-Disposition", "attachment;filename=\"UomsData.xlsx\"");
-		@SuppressWarnings("unused")
 		List<Uom> uomList=(List<Uom>) map.get("uomList");
 		Sheet sheet=book.createSheet("Uoms");
 		setHead(sheet);

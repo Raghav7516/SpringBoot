@@ -39,6 +39,7 @@ public class UomUtil {
 			try {
 				uomList=new ArrayList<Uom>();
 				InputStream is=file.getInputStream();
+				@SuppressWarnings("resource")
 				XSSFWorkbook book=new XSSFWorkbook(is);
 				XSSFSheet sheet=book.getSheet("Uoms");
 				Iterator<Row> rowItr=sheet.iterator();

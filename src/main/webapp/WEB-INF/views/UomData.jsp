@@ -14,7 +14,7 @@
 <tr>
 	<th>ID</th><th>TYPE</th><th>UOM</th><th>Created</th><th>Last Modified</th><th>Notes</th>
 </tr>
-<c:forEach items="${uoms}" var="uom">
+<c:forEach items="${uoms.getContent()}" var="uom">
 <tr>
 <td><c:out value="${uom.uomId}"/></td>
 <td><c:out value="${uom.uomType}"/></td>
@@ -26,6 +26,32 @@
 <td><a href="/editUom?uomId=${uom.uomId}">EDIT</a></td>
 </tr>
 </c:forEach>
+<c:if test="${!uoms.isFirst()}">
+<a href="getAllUoms?page=0">First</a>&nbsp;
+</c:if>
+<c:if test="${uoms.hasPrevious()}">
+<a href="getAllUoms?page=${uoms.getNumber()-1}">Previous</a>&nbsp;
+</c:if>
+<c:forEach begin="0" end="${uoms.getTotalPages()-1}" var="i">
+<c:choose>
+<c:when test="${uoms.getNumber() eq i}">
+<c:out value="${i+1}"/>&nbsp;
+</c:when>
+<c:otherwise>
+<a href="getAllUoms?page=${i}"><c:out value="${i+1}"/></a>&nbsp;
+</c:otherwise>
+</c:choose>
+</c:forEach>
+
+<c:if test="${uoms.hasNext()}">
+<a href="getAllUoms?page=${uoms.getNumber()+1}">Next</a>&nbsp;
+</c:if>
+
+
+<c:if test="${!uoms.isLast()}">
+<a href="getAllUoms?page=${uoms.getTotalPages()-1}">Last</a>&nbsp;
+</c:if> 
+
 </table>
 </body>
 </html>

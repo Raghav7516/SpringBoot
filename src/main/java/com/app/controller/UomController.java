@@ -1,10 +1,15 @@
 package com.app.controller;
 
-import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +30,9 @@ public class UomController {
 	 * on enter URL 'regUom' in
 	 * Browser
 	 */
-	@GetMapping(value={"/regUom"})  
-	public String showRegPage(){
+	@GetMapping(value={"/regUom","/"})  
+	public String showRegPage(ModelMap map){
+		map.addAttribute("uom", new Uom());
 		return "UomRegister";
 	}
 	
@@ -36,9 +42,13 @@ public class UomController {
 	 * 
 	 */
 	@PostMapping("/insertUom")
-	public String saveUom(@ModelAttribute Uom uom,ModelMap map){
-		long uomId=service.save(uom);
-		map.addAttribute("message", "UOM ("+uomId+") Created ");
+	public String saveUom(@ModelAttribute @Valid Uom uom,BindingResult errors,ModelMap map){
+		if (errors.hasErrors()) {
+			map.addAttribute("uom",uom);
+		}else {
+			long uomId=service.save(uom);
+			map.addAttribute("message", "UOM ("+uomId+") Created ");
+		}
 		return "UomRegister";
 	}
 	
@@ -46,11 +56,13 @@ public class UomController {
 	 * 3. Data Fetch From DB to UI
 	 */
 	@GetMapping("/getAllUoms")
-	public String getUoms(ModelMap map){
-		List<Uom> uomList=service.getAll();
-		map.addAttribute("uoms", uomList);
-		return "UomData";
+	public String getUom(@PageableDefault(size=5,sort="uomId") Pageable pageable,ModelMap map){
+			
+	Page<Uom> uomList= service.getAll(pageable);
+	map.addAttribute("uoms", uomList);
+	return "UomData";
 	}
+
 	@GetMapping("/deleteUom")
 	public String deleteUom(long uomId){
 		service.deleteById(uomId);
@@ -65,10 +77,14 @@ public class UomController {
 		return "UomDataUpdate";
 	}
 	@PostMapping("/updateUom")
-	public String updateUom(@ModelAttribute Uom uom){
-		service.update(uom);
+	public String updateUom(@ModelAttribute @Valid Uom uom,BindingResult errors,ModelMap map){
+		if (errors.hasErrors()) 
+		{
+			map.addAttribute("uom",uom);
+		} else {
+			service.update(uom);
+		}
 		return "redirect:getAllUoms";
-		
 	}
 	
 }

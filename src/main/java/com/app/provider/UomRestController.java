@@ -3,9 +3,12 @@ package com.app.provider;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,15 +25,25 @@ public class UomRestController {
 	private IUomService service;
 	
 	@PostMapping("/rest/saveUom")
-	public String saveUom(@RequestBody Uom uom){
-		long uomId=service.save(uom);
-		return "Uom saved successfully ,uomId : "+uomId;
+	public ResponseEntity<?> saveUom(@RequestBody @Valid Uom uom,BindingResult errors){
+		if (errors.hasErrors()) 
+		{
+			return ResponseEntity.badRequest().body(errors.getAllErrors());
+		} else {
+			long uomId=service.save(uom);
+			return ResponseEntity.ok("Uom saved successfully ,uomId : "+uomId);
+		}
 	}
 	
 	@PostMapping("/rest/updateUom")
-	public String updateUom(@RequestBody Uom uom){
-		service.update(uom);
-		return "Uom update successfull";
+	public ResponseEntity<?> updateUom(@RequestBody @Valid Uom uom,BindingResult errors){
+		if (errors.hasErrors()) 
+		{
+			return ResponseEntity.badRequest().body(errors.getAllErrors());
+		} else {
+			service.update(uom);
+			return ResponseEntity.ok("Uom update successfull");
+		}
 	}
 	
 	@GetMapping("/rest/deleteUom/{uomId}")
